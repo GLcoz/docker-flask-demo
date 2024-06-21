@@ -1,13 +1,12 @@
 pipeline {
-    agent any
+    agent any 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('my_docker_credentials')
     }
-    stages {
+    stages { 
         stage('Build docker image') {
-            steps {
+            steps {  
                 script {
-                    // Ensure the sh step is within a node block
                     sh 'docker build -t hakimedy/flaskapp:$BUILD_NUMBER .'
                 }
             }
@@ -15,7 +14,6 @@ pipeline {
         stage('Login to DockerHub') {
             steps {
                 script {
-                    // Ensure the sh step is within a node block
                     sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 }
             }
@@ -23,7 +21,6 @@ pipeline {
         stage('Push image') {
             steps {
                 script {
-                    // Ensure the sh step is within a node block
                     sh 'docker push hakimedy/flaskapp:$BUILD_NUMBER'
                 }
             }
@@ -32,8 +29,9 @@ pipeline {
     post {
         always {
             script {
-                // Ensure the sh step is within a node block
-                sh 'docker logout'
+                node {
+                    sh 'docker logout'
+                }
             }
         }
     }
