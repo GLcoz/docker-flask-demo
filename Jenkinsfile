@@ -1,7 +1,7 @@
 pipeline {
     agent any 
     environment {
-    DOCKERHUB_CREDENTIALS = credentials('amonkincloud-dockerhub')
+    DOCKERHUB_CREDENTIALS = credentials('my_docker_credentials')
     }
     stages { 
 
